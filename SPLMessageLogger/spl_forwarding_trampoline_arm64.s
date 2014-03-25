@@ -1,0 +1,6153 @@
+#if defined(__arm64__)
+.text
+.align 14
+.globl _spl_forwarding_trampoline_page
+.globl _spl_forwarding_trampoline_stret_page
+
+_spl_forwarding_trampoline_stret_page:
+_spl_forwarding_trampoline_page:
+
+_spl_forwarding_trampoline:
+sub x12, lr, #0x8       // x12 = lr - 8, that is the address of the corresponding `mov x13, lr` instruction of the current trampoline
+sub x12, x12, #0x4000   // x12 = x12 - 16384, that is where the data for this trampoline is stored
+mov lr, x13             // restore the link register, so that objc_msgSend jumps back to that address and not the `nop` instruction of the corresponding trampoline
+ldr x1, [x12, #8]       // load x1, which holds SEL _cmd, from *(x12 + 8)
+ldr x12, [x12]          // x12 = *x12, now x12 hold the address to objc_msgSend
+br x12                  // branch directly to x12 aka objc_msgSend
+nop                     // two nop instructions to perfectly align this memory page to the correct size
+nop
+
+# Save lr, which contains the address to where we need to branch back after function returns, then jump to the actual trampoline implementation
+mov x13, lr
+bl _spl_forwarding_trampoline;
+// introduce padding to 16 bytes because our data for each trampoline requires 16 bytes.
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+# Next trampoline entry point
+mov x13, lr
+bl _spl_forwarding_trampoline;
+nop
+nop
+
+#endif
