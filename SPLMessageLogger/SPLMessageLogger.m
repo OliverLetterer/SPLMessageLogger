@@ -21,13 +21,15 @@ extern id spl_forwarding_trampoline_stret_page(id, SEL);
 static OSSpinLock lock = OS_SPINLOCK_INIT;
 
 typedef struct {
+#ifndef __arm64__
     IMP msgSend;
+#endif
     SEL selector;
 } SPLForwardingTrampolineDataBlock;
 
 #if defined(__arm64__)
-typedef int32_t SPLForwardingTrampolineEntryPointBlock[4];
-static const int32_t SPLForwardingTrampolineInstructionCount = 8;
+typedef int32_t SPLForwardingTrampolineEntryPointBlock[2];
+static const int32_t SPLForwardingTrampolineInstructionCount = 6;
 #elif defined(_ARM_ARCH_7)
 typedef int32_t SPLForwardingTrampolineEntryPointBlock[2];
 static const int32_t SPLForwardingTrampolineInstructionCount = 4;
@@ -38,18 +40,23 @@ static const int32_t SPLForwardingTrampolineInstructionCount = 4;
 static const size_t numberOfTrampolinesPerPage = (PAGE_SIZE - SPLForwardingTrampolineInstructionCount * sizeof(int32_t)) / sizeof(SPLForwardingTrampolineEntryPointBlock);
 
 typedef struct {
-    int32_t nextAvailableTrampolineIndex;
-    int32_t trampolineSize[SPLForwardingTrampolineInstructionCount - 1];
+    union {
+        struct {
+            IMP msgSend;
+            int32_t nextAvailableTrampolineIndex;
+        };
+        int32_t trampolineSize[SPLForwardingTrampolineInstructionCount];
+    };
 
     SPLForwardingTrampolineDataBlock trampolineData[numberOfTrampolinesPerPage];
 
-    int32_t trampolineIntructions[SPLForwardingTrampolineInstructionCount];
+    int32_t trampolineInstructions[SPLForwardingTrampolineInstructionCount];
     SPLForwardingTrampolineEntryPointBlock trampolineEntryPoints[numberOfTrampolinesPerPage];
 } SPLForwardingTrampolinePage;
 
 check_compile_time(sizeof(SPLForwardingTrampolineEntryPointBlock) == sizeof(SPLForwardingTrampolineDataBlock));
 check_compile_time(sizeof(SPLForwardingTrampolinePage) == 2 * PAGE_SIZE);
-check_compile_time(offsetof(SPLForwardingTrampolinePage, trampolineIntructions) == PAGE_SIZE);
+check_compile_time(offsetof(SPLForwardingTrampolinePage, trampolineInstructions) == PAGE_SIZE);
 
 SPLForwardingTrampolinePage *SPLForwardingTrampolinePageAlloc(BOOL useObjcMsgSendStret)
 {
@@ -101,6 +108,7 @@ static SPLForwardingTrampolinePage *nextTrampolinePage(BOOL returnStructValue)
         [thisArray addObject:[NSValue valueWithPointer:trampolinePage]];
     }
 
+    trampolinePage->msgSend = objc_msgSend;
     return trampolinePage;
 }
 
@@ -131,9 +139,7 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
     SPLForwardingTrampolinePage *dataPageLayout = nextTrampolinePage(returnsAStructValue);
 
     int32_t nextAvailableTrampolineIndex = dataPageLayout->nextAvailableTrampolineIndex;
-#ifdef __arm64__
-    dataPageLayout->trampolineData[nextAvailableTrampolineIndex].msgSend = objc_msgSend;
-#else
+#ifndef __arm64__
     dataPageLayout->trampolineData[nextAvailableTrampolineIndex].msgSend = returnsAStructValue ? (IMP)objc_msgSend_stret : objc_msgSend;
 #endif
 

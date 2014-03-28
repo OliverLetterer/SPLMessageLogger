@@ -25,6 +25,8 @@
 		BB677C6318E332EE00A9B9F4 /* Ytrace.m in Sources */ = {isa = PBXBuildFile; fileRef = BB677C6218E332EE00A9B9F4 /* Ytrace.m */; };
 		BB677C6718E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s in Sources */ = {isa = PBXBuildFile; fileRef = BB677C6418E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s */; };
 		BB677C6818E3347D00A9B9F4 /* SPLMessageLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = BB677C6618E3347D00A9B9F4 /* SPLMessageLogger.m */; };
+		BB814F9618E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s in Sources */ = {isa = PBXBuildFile; fileRef = BB814F9418E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s */; };
+		BB814F9718E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s in Sources */ = {isa = PBXBuildFile; fileRef = BB814F9518E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		BB677C6418E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_arm64.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_arm64.s; sourceTree = "<group>"; };
 		BB677C6518E3347D00A9B9F4 /* SPLMessageLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPLMessageLogger.h; path = ../../SPLMessageLogger/SPLMessageLogger.h; sourceTree = "<group>"; };
 		BB677C6618E3347D00A9B9F4 /* SPLMessageLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPLMessageLogger.m; path = ../../SPLMessageLogger/SPLMessageLogger.m; sourceTree = "<group>"; };
+		BB814F9418E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_armv7.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_armv7.s; sourceTree = "<group>"; };
+		BB814F9518E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_stret_armv7.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_stret_armv7.s; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,8 @@
 				BB677C6218E332EE00A9B9F4 /* Ytrace.m */,
 				BB677C6518E3347D00A9B9F4 /* SPLMessageLogger.h */,
 				BB677C6618E3347D00A9B9F4 /* SPLMessageLogger.m */,
+				BB814F9418E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s */,
+				BB814F9518E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s */,
 				BB677C6418E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s */,
 				BB677C3818E332B100A9B9F4 /* YTAppDelegate.h */,
 				BB677C3918E332B100A9B9F4 /* YTAppDelegate.m */,
@@ -271,6 +277,8 @@
 				BB677C6718E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s in Sources */,
 				BB677C3A18E332B100A9B9F4 /* YTAppDelegate.m in Sources */,
 				BB677C4318E332B100A9B9F4 /* YTDetailViewController.m in Sources */,
+				BB814F9718E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s in Sources */,
+				BB814F9618E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s in Sources */,
 				BB677C4018E332B100A9B9F4 /* YTMasterViewController.m in Sources */,
 				BB677C6318E332EE00A9B9F4 /* Ytrace.m in Sources */,
 				BB677C6818E3347D00A9B9F4 /* SPLMessageLogger.m in Sources */,
@@ -328,6 +336,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -366,6 +375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -483,6 +493,7 @@
 				BB677C5D18E332B100A9B9F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BB677C5E18E332B100A9B9F4 /* Build configuration list for PBXNativeTarget "YtraceTests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +502,7 @@
 				BB677C6018E332B100A9B9F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
