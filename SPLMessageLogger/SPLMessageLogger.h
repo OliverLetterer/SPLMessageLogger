@@ -15,3 +15,10 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 + (instancetype)messageLogger;
 
 @end
+
+@interface SPLMessageLoggerRecorder : NSObject
+
++ (void)logSelector:(SEL)originalSelector inClass:(Class)aClass;
+
+@end
+

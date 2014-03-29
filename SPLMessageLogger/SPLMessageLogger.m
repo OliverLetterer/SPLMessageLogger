@@ -21,16 +21,21 @@ extern id spl_forwarding_trampoline_stret_page(id, SEL);
 static OSSpinLock lock = OS_SPINLOCK_INIT;
 
 typedef struct {
+#ifndef __arm64__
     IMP msgSend;
+#endif
     SEL selector;
 } SPLForwardingTrampolineDataBlock;
 
 #if defined(__arm64__)
-typedef int32_t SPLForwardingTrampolineEntryPointBlock[4];
-static const int32_t SPLForwardingTrampolineInstructionCount = 8;
+typedef int32_t SPLForwardingTrampolineEntryPointBlock[2];
+static const int32_t SPLForwardingTrampolineInstructionCount = 6;
 #elif defined(_ARM_ARCH_7)
 typedef int32_t SPLForwardingTrampolineEntryPointBlock[2];
 static const int32_t SPLForwardingTrampolineInstructionCount = 4;
+#elif defined(__i386__)
+typedef int32_t SPLForwardingTrampolineEntryPointBlock[2];
+static const int32_t SPLForwardingTrampolineInstructionCount = 6;
 #else
 #error SPLMessageLogger is not supported on this platform
 #endif
@@ -38,18 +43,23 @@ static const int32_t SPLForwardingTrampolineInstructionCount = 4;
 static const size_t numberOfTrampolinesPerPage = (PAGE_SIZE - SPLForwardingTrampolineInstructionCount * sizeof(int32_t)) / sizeof(SPLForwardingTrampolineEntryPointBlock);
 
 typedef struct {
-    int32_t nextAvailableTrampolineIndex;
-    int32_t trampolineSize[SPLForwardingTrampolineInstructionCount - 1];
+    union {
+        struct {
+            IMP msgSend;
+            int32_t nextAvailableTrampolineIndex;
+        };
+        int32_t trampolineSize[SPLForwardingTrampolineInstructionCount];
+    };
 
     SPLForwardingTrampolineDataBlock trampolineData[numberOfTrampolinesPerPage];
 
-    int32_t trampolineIntructions[SPLForwardingTrampolineInstructionCount];
+    int32_t trampolineInstructions[SPLForwardingTrampolineInstructionCount];
     SPLForwardingTrampolineEntryPointBlock trampolineEntryPoints[numberOfTrampolinesPerPage];
 } SPLForwardingTrampolinePage;
 
 check_compile_time(sizeof(SPLForwardingTrampolineEntryPointBlock) == sizeof(SPLForwardingTrampolineDataBlock));
 check_compile_time(sizeof(SPLForwardingTrampolinePage) == 2 * PAGE_SIZE);
-check_compile_time(offsetof(SPLForwardingTrampolinePage, trampolineIntructions) == PAGE_SIZE);
+check_compile_time(offsetof(SPLForwardingTrampolinePage, trampolineInstructions) == PAGE_SIZE);
 
 SPLForwardingTrampolinePage *SPLForwardingTrampolinePageAlloc(BOOL useObjcMsgSendStret)
 {
@@ -101,6 +111,7 @@ static SPLForwardingTrampolinePage *nextTrampolinePage(BOOL returnStructValue)
         [thisArray addObject:[NSValue valueWithPointer:trampolinePage]];
     }
 
+    trampolinePage->msgSend = objc_msgSend;
     return trampolinePage;
 }
 
@@ -131,9 +142,7 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
     SPLForwardingTrampolinePage *dataPageLayout = nextTrampolinePage(returnsAStructValue);
 
     int32_t nextAvailableTrampolineIndex = dataPageLayout->nextAvailableTrampolineIndex;
-#ifdef __arm64__
-    dataPageLayout->trampolineData[nextAvailableTrampolineIndex].msgSend = objc_msgSend;
-#else
+#ifndef __arm64__
     dataPageLayout->trampolineData[nextAvailableTrampolineIndex].msgSend = returnsAStructValue ? (IMP)objc_msgSend_stret : objc_msgSend;
 #endif
 
@@ -147,7 +156,6 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 }
 
 
-
 @interface SPLMessageLogger : NSObject
 
 @property (nonatomic, unsafe_unretained) id target;
@@ -158,10 +166,9 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 @end
 
 
+@interface SPLMessageLoggerRecorder()
 
-@interface SPLMessageLoggerRecorder : NSObject
-
-@property (nonatomic, readonly) Class recoringClass;
+@property (nonatomic, readonly) Class recordingClass;
 - (instancetype)initWithClass:(Class)class;
 
 @end
@@ -170,7 +177,7 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 
 - (Class)class
 {
-    return (id)[[SPLMessageLoggerRecorder alloc] initWithClass:objc_getMetaClass(class_getName(self.recoringClass))];
+    return (id)[[SPLMessageLoggerRecorder alloc] initWithClass:objc_getMetaClass(class_getName(self.recordingClass))];
 }
 
 + (instancetype)messageLogger
@@ -182,7 +189,7 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 - (instancetype)initWithClass:(Class)class
 {
     if (self = [super init]) {
-        _recoringClass = class;
+        _recordingClass = class;
     }
 
     return self;
@@ -190,7 +197,7 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {
-    Method instanceMethod = class_getInstanceMethod(self.recoringClass, aSelector);
+    Method instanceMethod = class_getInstanceMethod(self.recordingClass, aSelector);
     if (method_getName(instanceMethod) == aSelector) {
         return [NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(instanceMethod)];
     }
@@ -201,19 +208,9 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 - (void)forwardInvocation:(NSInvocation *)anInvocation
 {
     SEL originalSelector = anInvocation.selector;
-    SEL forwardingSelector = NSSelectorFromString([NSString stringWithFormat:@"__SPLMessageLogger_%@_%@", NSStringFromClass(self.recoringClass), NSStringFromSelector(originalSelector)]);
-    SEL selectorForOriginalImplementation = NSSelectorFromString([NSString stringWithFormat:@"__SPLMessageLogger_original_%@_%@", NSStringFromClass(self.recoringClass), NSStringFromSelector(originalSelector)]);
+    BOOL recordingClassDoesImplementOriginalSelector = [self.recordingClass instanceMethodForSelector:originalSelector] != [[self.recordingClass superclass] instanceMethodForSelector:originalSelector];
 
-    BOOL recordingClassDoesImplementOriginalSelector = [self.recoringClass instanceMethodForSelector:originalSelector] != [[self.recoringClass superclass] instanceMethodForSelector:originalSelector];
-
-    if (![self.recoringClass instancesRespondToSelector:forwardingSelector] && ![self.recoringClass instancesRespondToSelector:selectorForOriginalImplementation] && recordingClassDoesImplementOriginalSelector) {
-        Method method = class_getInstanceMethod(self.recoringClass, originalSelector);
-        BOOL methodReturnsStructValue = method_getTypeEncoding(method)[0] == '{';
-        IMP forwardingImplementation = imp_implementationForwardingToSelector(forwardingSelector, methodReturnsStructValue);
-
-        class_addMethod(self.recoringClass, selectorForOriginalImplementation, method_getImplementation(method), method_getTypeEncoding(method));
-        method_setImplementation(method, forwardingImplementation);
-    }
+    [[self class] logSelector:_cmd inClass:self.recordingClass];
 
     if (anInvocation.methodSignature.methodReturnLength > 0) {
         size_t *zeroedReturnValue = calloc(anInvocation.methodSignature.methodReturnLength, sizeof(size_t));
@@ -222,8 +219,37 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
     }
 
     if (!recordingClassDoesImplementOriginalSelector) {
-        NSLog(@"[%@ %@] has been skipped because %@ does not implement %@", self.recoringClass, NSStringFromSelector(originalSelector), self.recoringClass, NSStringFromSelector(originalSelector));
+        NSLog(@"[%@ %@] has been skipped because %@ does not implement %@", self.recordingClass, NSStringFromSelector(originalSelector), self.recordingClass, NSStringFromSelector(originalSelector));
     }
+}
+
++ (void)logSelector:(SEL)originalSelector inClass:(Class)recordingClass
+{
+    SEL forwardingSelector = NSSelectorFromString([NSString stringWithFormat:@"__SPLMessageLogger_%@_%@", NSStringFromClass(recordingClass), NSStringFromSelector(originalSelector)]);
+    SEL selectorForOriginalImplementation = NSSelectorFromString([NSString stringWithFormat:@"__SPLMessageLogger_original_%@_%@", NSStringFromClass(recordingClass), NSStringFromSelector(originalSelector)]);
+
+    BOOL recordingClassDoesImplementOriginalSelector = [recordingClass instanceMethodForSelector:originalSelector] != [[recordingClass superclass] instanceMethodForSelector:originalSelector];
+
+    if (![recordingClass instancesRespondToSelector:forwardingSelector] && ![recordingClass instancesRespondToSelector:selectorForOriginalImplementation] && recordingClassDoesImplementOriginalSelector) {
+        Method method = class_getInstanceMethod(recordingClass, originalSelector);
+        const char *encoding = method_getTypeEncoding(method);
+        BOOL methodReturnsStructValue = encoding[0] == '{';
+#ifdef __i386__
+        if ( methodReturnsStructValue )
+            @try {
+                NSUInteger valueSize = 0;
+                NSGetSizeAndAlignment(encoding, &valueSize, NULL);
+                if ( valueSize == 1 || valueSize == 2 || valueSize == 4 || valueSize == 8 )
+                    methodReturnsStructValue = NO;
+            }
+            @catch (NSException *e) {}
+#endif
+        IMP forwardingImplementation = imp_implementationForwardingToSelector(forwardingSelector, methodReturnsStructValue);
+
+        class_addMethod(recordingClass, selectorForOriginalImplementation, method_getImplementation(method), method_getTypeEncoding(method));
+        method_setImplementation(method, forwardingImplementation);
+    }
+    
 }
 
 @end
@@ -259,17 +285,22 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 @implementation NSInvocation (SPLMessageLogger)
 
 // Thanks to the ReactiveCocoa team for providing a generic solution for this.
-- (id)spl_descriptionAtIndex:(NSUInteger)index
+- (id)spl_descriptionAtIndex:(NSInteger)index
 {
-	const char *argType = [self.methodSignature getArgumentTypeAtIndex:index];
+	const char *argType = index < 0 ? self.methodSignature.methodReturnType :
+                            [self.methodSignature getArgumentTypeAtIndex:index];
 	// Skip const type qualifier.
 	if (argType[0] == 'r') argType++;
 
-#define WRAP_AND_RETURN(type) do { type val = 0; [self getArgument:&val atIndex:(NSInteger)index]; return @(val); } while (0)
+#define WRAP_AND_RETURN(type) do { type val = 0; index < 0 ? [self getReturnValue:&val] : [self getArgument:&val atIndex:index]; return @(val); } while (0)
 	if (strcmp(argType, @encode(id)) == 0 || strcmp(argType, @encode(Class)) == 0) {
-		__unsafe_unretained id returnObj;
-		[self getArgument:&returnObj atIndex:(NSInteger)index];
-		return [returnObj description];
+		__unsafe_unretained id returnObj =nil;
+        if ( index < 0 )
+            [self getReturnValue:&returnObj];
+        else
+            [self getArgument:&returnObj atIndex:index];
+        NSUInteger nullIdiom = ~0; // sometimes encountered on messages with Idom: argument
+		return (NSUInteger)returnObj != nullIdiom ? [returnObj description] : @(nullIdiom);
 	} else if (strcmp(argType, @encode(char)) == 0) {
 		WRAP_AND_RETURN(char);
 	} else if (strcmp(argType, @encode(int)) == 0) {
@@ -300,71 +331,17 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 		WRAP_AND_RETURN(const char *);
 	} else if (strcmp(argType, @encode(void (^)(void))) == 0) {
 		__unsafe_unretained id block = nil;
-		[self getArgument:&block atIndex:(NSInteger)index];
+		[self getArgument:&block atIndex:index];
 		return [block description];
 	} else {
 		NSUInteger valueSize = 0;
 		NSGetSizeAndAlignment(argType, &valueSize, NULL);
 
 		unsigned char valueBytes[valueSize];
-		[self getArgument:valueBytes atIndex:(NSInteger)index];
-
-		return [NSValue valueWithBytes:valueBytes objCType:argType];
-	}
-
-	return nil;
-#undef WRAP_AND_RETURN
-}
-
-- (id)spl_returnValueDescription
-{
-	const char *argType = self.methodSignature.methodReturnType;
-	// Skip const type qualifier.
-	if (argType[0] == 'r') argType++;
-
-#define WRAP_AND_RETURN(type) do { type val = 0; [self getReturnValue:&val]; return @(val); } while (0)
-	if (strcmp(argType, @encode(id)) == 0 || strcmp(argType, @encode(Class)) == 0) {
-		__unsafe_unretained id returnObj;
-		[self getReturnValue:&returnObj];
-		return [returnObj description];
-	} else if (strcmp(argType, @encode(char)) == 0) {
-		WRAP_AND_RETURN(char);
-	} else if (strcmp(argType, @encode(int)) == 0) {
-		WRAP_AND_RETURN(int);
-	} else if (strcmp(argType, @encode(short)) == 0) {
-		WRAP_AND_RETURN(short);
-	} else if (strcmp(argType, @encode(long)) == 0) {
-		WRAP_AND_RETURN(long);
-	} else if (strcmp(argType, @encode(long long)) == 0) {
-		WRAP_AND_RETURN(long long);
-	} else if (strcmp(argType, @encode(unsigned char)) == 0) {
-		WRAP_AND_RETURN(unsigned char);
-	} else if (strcmp(argType, @encode(unsigned int)) == 0) {
-		WRAP_AND_RETURN(unsigned int);
-	} else if (strcmp(argType, @encode(unsigned short)) == 0) {
-		WRAP_AND_RETURN(unsigned short);
-	} else if (strcmp(argType, @encode(unsigned long)) == 0) {
-		WRAP_AND_RETURN(unsigned long);
-	} else if (strcmp(argType, @encode(unsigned long long)) == 0) {
-		WRAP_AND_RETURN(unsigned long long);
-	} else if (strcmp(argType, @encode(float)) == 0) {
-		WRAP_AND_RETURN(float);
-	} else if (strcmp(argType, @encode(double)) == 0) {
-		WRAP_AND_RETURN(double);
-	} else if (strcmp(argType, @encode(BOOL)) == 0) {
-		WRAP_AND_RETURN(BOOL);
-	} else if (strcmp(argType, @encode(char *)) == 0) {
-		WRAP_AND_RETURN(const char *);
-	} else if (strcmp(argType, @encode(void (^)(void))) == 0) {
-		__unsafe_unretained id block = nil;
-		[self getReturnValue:&block];
-		return [block description];
-	} else {
-		NSUInteger valueSize = 0;
-		NSGetSizeAndAlignment(argType, &valueSize, NULL);
-
-		unsigned char valueBytes[valueSize];
-		[self getReturnValue:valueBytes];
+        if ( index < 0 )
+            [self getReturnValue:valueBytes];
+        else
+            [self getArgument:valueBytes atIndex:index];
 
 		return [NSValue valueWithBytes:valueBytes objCType:argType];
 	}
@@ -374,9 +351,6 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 }
 
 @end
-
-
-
 
 @implementation SPLMessageLogger
 
@@ -430,11 +404,11 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
             [logString appendFormat:@" %@:%@", selectorComponents[argument - 2], description];
         }
     } else {
-        [logString appendFormat:@"%@", anInvocation];
+        [logString appendFormat:@" %@", originalSelectorName];
     }
 
     [logString appendString:@"]"];
-    NSLog(@"%@", logString);
+    printf("%s\n", [logString UTF8String]); // printf much faster than NSLog
 
     anInvocation.selector = self.selector;
     [anInvocation invoke];
@@ -449,12 +423,12 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
         }
 
         if (anInvocation.methodSignature.methodReturnLength > 0) {
-            [logString appendFormat:@" %@", [anInvocation spl_returnValueDescription]];
+            [logString appendFormat:@" %@", [anInvocation spl_descriptionAtIndex:-1]];
         } else {
             [logString appendString:@" void"];
         }
         
-        NSLog(@"%@", logString);
+        printf("%s\n", [logString UTF8String]);
     }
 }
 
