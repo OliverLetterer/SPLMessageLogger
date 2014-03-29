@@ -155,6 +155,37 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
     return implementation;
 }
 
+void spl_classLogSelector(Class recordingClass, SEL originalSelector)
+{
+    SEL forwardingSelector = NSSelectorFromString([NSString stringWithFormat:@"__SPLMessageLogger_%@_%@", NSStringFromClass(recordingClass), NSStringFromSelector(originalSelector)]);
+    SEL selectorForOriginalImplementation = NSSelectorFromString([NSString stringWithFormat:@"__SPLMessageLogger_original_%@_%@", NSStringFromClass(recordingClass), NSStringFromSelector(originalSelector)]);
+
+    BOOL recordingClassDoesImplementOriginalSelector = [recordingClass instanceMethodForSelector:originalSelector] != [[recordingClass superclass] instanceMethodForSelector:originalSelector];
+
+    if (![recordingClass instancesRespondToSelector:forwardingSelector] && ![recordingClass instancesRespondToSelector:selectorForOriginalImplementation] && recordingClassDoesImplementOriginalSelector) {
+        Method method = class_getInstanceMethod(recordingClass, originalSelector);
+        const char *encoding = method_getTypeEncoding(method);
+        BOOL methodReturnsStructValue = encoding[0] == '{';
+#ifdef __i386__
+        if ( methodReturnsStructValue ) {
+            @try {
+                NSUInteger valueSize = 0;
+                NSGetSizeAndAlignment(encoding, &valueSize, NULL);
+
+                if (valueSize == 1 || valueSize == 2 || valueSize == 4 || valueSize == 8) {
+                    methodReturnsStructValue = NO;
+                }
+            } @catch (NSException *e) {}
+        }
+#endif
+        IMP forwardingImplementation = imp_implementationForwardingToSelector(forwardingSelector, methodReturnsStructValue);
+
+        class_addMethod(recordingClass, selectorForOriginalImplementation, method_getImplementation(method), method_getTypeEncoding(method));
+        method_setImplementation(method, forwardingImplementation);
+    }
+}
+
+
 
 @interface SPLMessageLogger : NSObject
 
@@ -165,6 +196,8 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 
 @end
 
+
+@interface SPLMessageLoggerRecorder : NSObject @end
 
 @interface SPLMessageLoggerRecorder()
 
@@ -210,7 +243,7 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
     SEL originalSelector = anInvocation.selector;
     BOOL recordingClassDoesImplementOriginalSelector = [self.recordingClass instanceMethodForSelector:originalSelector] != [[self.recordingClass superclass] instanceMethodForSelector:originalSelector];
 
-    [[self class] logSelector:_cmd inClass:self.recordingClass];
+    spl_classLogSelector(self.recordingClass, originalSelector);
 
     if (anInvocation.methodSignature.methodReturnLength > 0) {
         size_t *zeroedReturnValue = calloc(anInvocation.methodSignature.methodReturnLength, sizeof(size_t));
@@ -221,35 +254,6 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
     if (!recordingClassDoesImplementOriginalSelector) {
         NSLog(@"[%@ %@] has been skipped because %@ does not implement %@", self.recordingClass, NSStringFromSelector(originalSelector), self.recordingClass, NSStringFromSelector(originalSelector));
     }
-}
-
-+ (void)logSelector:(SEL)originalSelector inClass:(Class)recordingClass
-{
-    SEL forwardingSelector = NSSelectorFromString([NSString stringWithFormat:@"__SPLMessageLogger_%@_%@", NSStringFromClass(recordingClass), NSStringFromSelector(originalSelector)]);
-    SEL selectorForOriginalImplementation = NSSelectorFromString([NSString stringWithFormat:@"__SPLMessageLogger_original_%@_%@", NSStringFromClass(recordingClass), NSStringFromSelector(originalSelector)]);
-
-    BOOL recordingClassDoesImplementOriginalSelector = [recordingClass instanceMethodForSelector:originalSelector] != [[recordingClass superclass] instanceMethodForSelector:originalSelector];
-
-    if (![recordingClass instancesRespondToSelector:forwardingSelector] && ![recordingClass instancesRespondToSelector:selectorForOriginalImplementation] && recordingClassDoesImplementOriginalSelector) {
-        Method method = class_getInstanceMethod(recordingClass, originalSelector);
-        const char *encoding = method_getTypeEncoding(method);
-        BOOL methodReturnsStructValue = encoding[0] == '{';
-#ifdef __i386__
-        if ( methodReturnsStructValue )
-            @try {
-                NSUInteger valueSize = 0;
-                NSGetSizeAndAlignment(encoding, &valueSize, NULL);
-                if ( valueSize == 1 || valueSize == 2 || valueSize == 4 || valueSize == 8 )
-                    methodReturnsStructValue = NO;
-            }
-            @catch (NSException *e) {}
-#endif
-        IMP forwardingImplementation = imp_implementationForwardingToSelector(forwardingSelector, methodReturnsStructValue);
-
-        class_addMethod(recordingClass, selectorForOriginalImplementation, method_getImplementation(method), method_getTypeEncoding(method));
-        method_setImplementation(method, forwardingImplementation);
-    }
-    
 }
 
 @end

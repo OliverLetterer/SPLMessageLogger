@@ -60,7 +60,7 @@ static NSRegularExpression *selectorExclusions;
             else if ( [class_getSuperclass(aClass) instancesRespondToSelector:name] )
                 ;//NSLog( @"Ytrace: Skipping possible message to super %s", sel_getName(name) );
             else
-                [SPLMessageLoggerRecorder logSelector:name inClass:aClass];
+                spl_classLogSelector(aClass, name);
         }
 
         free( methods );

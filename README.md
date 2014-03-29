@@ -138,7 +138,7 @@ The trick here is that no instance every is responding to the forwarded `-[SPLVi
 
 ## Limitations
 
-This approach uses a custom trampoline written in raw assembly which is currently only available on actual device hardware, namely armv7, armv7s and arm64.
+This approach uses a custom trampoline written in raw assembly which is currently only available on i386, armv7, armv7s and arm64.
 
 ## Author
 
