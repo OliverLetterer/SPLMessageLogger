@@ -1,3 +1,4 @@
+#ifndef __i386__
 #include <arm/arch.h>
 
 #ifdef _ARM_ARCH_7
@@ -2058,4 +2059,5 @@ b _spl_forwarding_trampoline;
 # Next trampoline entry point
 mov r12, pc
 b _spl_forwarding_trampoline;
+#endif
 #endif

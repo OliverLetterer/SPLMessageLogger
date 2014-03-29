@@ -33,6 +33,9 @@ static const int32_t SPLForwardingTrampolineInstructionCount = 6;
 #elif defined(_ARM_ARCH_7)
 typedef int32_t SPLForwardingTrampolineEntryPointBlock[2];
 static const int32_t SPLForwardingTrampolineInstructionCount = 4;
+#elif defined(__i386__)
+typedef int32_t SPLForwardingTrampolineEntryPointBlock[2];
+static const int32_t SPLForwardingTrampolineInstructionCount = 6;
 #else
 #error SPLMessageLogger is not supported on this platform
 #endif
@@ -229,7 +232,17 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 
     if (![recordingClass instancesRespondToSelector:forwardingSelector] && ![recordingClass instancesRespondToSelector:selectorForOriginalImplementation] && recordingClassDoesImplementOriginalSelector) {
         Method method = class_getInstanceMethod(recordingClass, originalSelector);
-        BOOL methodReturnsStructValue = method_getTypeEncoding(method)[0] == '{';
+        const char *encoding = method_getTypeEncoding(method);
+        BOOL methodReturnsStructValue = encoding[0] == '{';
+#ifdef __i386__
+        @try {
+            NSUInteger valueSize = 0;
+            NSGetSizeAndAlignment(encoding, &valueSize, NULL);
+            if ( methodReturnsStructValue && (valueSize == 1 || valueSize == 2 || valueSize == 4 || valueSize == 8) )
+                methodReturnsStructValue = NO;
+        }
+        @catch (NSException *e) {}
+#endif
         IMP forwardingImplementation = imp_implementationForwardingToSelector(forwardingSelector, methodReturnsStructValue);
 
         class_addMethod(recordingClass, selectorForOriginalImplementation, method_getImplementation(method), method_getTypeEncoding(method));
@@ -278,13 +291,13 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 	// Skip const type qualifier.
 	if (argType[0] == 'r') argType++;
 
-#define WRAP_AND_RETURN(type) do { type val = 0; index < 0 ? [self getReturnValue:&val] : [self getArgument:&val atIndex:(NSInteger)index]; return @(val); } while (0)
+#define WRAP_AND_RETURN(type) do { type val = 0; index < 0 ? [self getReturnValue:&val] : [self getArgument:&val atIndex:index]; return @(val); } while (0)
 	if (strcmp(argType, @encode(id)) == 0 || strcmp(argType, @encode(Class)) == 0) {
 		__unsafe_unretained id returnObj =nil;
         if ( index < 0 )
             [self getReturnValue:&returnObj];
         else
-            [self getArgument:&returnObj atIndex:(NSInteger)index];
+            [self getArgument:&returnObj atIndex:index];
         NSUInteger nullIdiom = ~0; // sometimes encountered on messages with Idom: argument
 		return (NSUInteger)returnObj != nullIdiom ? [returnObj description] : @(nullIdiom);
 	} else if (strcmp(argType, @encode(char)) == 0) {
@@ -317,7 +330,7 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
 		WRAP_AND_RETURN(const char *);
 	} else if (strcmp(argType, @encode(void (^)(void))) == 0) {
 		__unsafe_unretained id block = nil;
-		[self getArgument:&block atIndex:(NSInteger)index];
+		[self getArgument:&block atIndex:index];
 		return [block description];
 	} else {
 		NSUInteger valueSize = 0;
@@ -327,7 +340,7 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
         if ( index < 0 )
             [self getReturnValue:valueBytes];
         else
-            [self getArgument:valueBytes atIndex:(NSInteger)index];
+            [self getArgument:valueBytes atIndex:index];
 
 		return [NSValue valueWithBytes:valueBytes objCType:argType];
 	}

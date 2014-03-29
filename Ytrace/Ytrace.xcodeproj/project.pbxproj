@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB170FA618E5CFB100C0B186 /* spl_forwarding_trampoline_x86.s in Sources */ = {isa = PBXBuildFile; fileRef = BB170FA518E5CFB100C0B186 /* spl_forwarding_trampoline_x86.s */; };
+		BB170FAB18E5E56A00C0B186 /* spl_forwarding_trampoline_stret_armv7.s in Sources */ = {isa = PBXBuildFile; fileRef = BB170FA918E5E56A00C0B186 /* spl_forwarding_trampoline_stret_armv7.s */; };
 		BB677C2A18E332B100A9B9F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB677C2918E332B100A9B9F4 /* Foundation.framework */; };
 		BB677C2C18E332B100A9B9F4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB677C2B18E332B100A9B9F4 /* CoreGraphics.framework */; };
 		BB677C2E18E332B100A9B9F4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB677C2D18E332B100A9B9F4 /* UIKit.framework */; };
@@ -25,8 +27,8 @@
 		BB677C6318E332EE00A9B9F4 /* Ytrace.m in Sources */ = {isa = PBXBuildFile; fileRef = BB677C6218E332EE00A9B9F4 /* Ytrace.m */; };
 		BB677C6718E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s in Sources */ = {isa = PBXBuildFile; fileRef = BB677C6418E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s */; };
 		BB677C6818E3347D00A9B9F4 /* SPLMessageLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = BB677C6618E3347D00A9B9F4 /* SPLMessageLogger.m */; };
-		BB814F9618E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s in Sources */ = {isa = PBXBuildFile; fileRef = BB814F9418E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s */; };
-		BB814F9718E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s in Sources */ = {isa = PBXBuildFile; fileRef = BB814F9518E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s */; };
+		BB6D614018E5EC0000BA515B /* spl_forwarding_trampoline_x86_stret.s in Sources */ = {isa = PBXBuildFile; fileRef = BB6D613F18E5EC0000BA515B /* spl_forwarding_trampoline_x86_stret.s */; };
+		BB6D614218E5F0F800BA515B /* spl_forwarding_trampoline_armv7.s in Sources */ = {isa = PBXBuildFile; fileRef = BB6D614118E5F0F800BA515B /* spl_forwarding_trampoline_armv7.s */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BB170FA518E5CFB100C0B186 /* spl_forwarding_trampoline_x86.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_x86.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_x86.s; sourceTree = "<group>"; };
+		BB170FA918E5E56A00C0B186 /* spl_forwarding_trampoline_stret_armv7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_stret_armv7.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_stret_armv7.s; sourceTree = "<group>"; };
 		BB677C2618E332B100A9B9F4 /* Ytrace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ytrace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB677C2918E332B100A9B9F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BB677C2B18E332B100A9B9F4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -66,8 +70,8 @@
 		BB677C6418E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_arm64.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_arm64.s; sourceTree = "<group>"; };
 		BB677C6518E3347D00A9B9F4 /* SPLMessageLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SPLMessageLogger.h; path = ../../SPLMessageLogger/SPLMessageLogger.h; sourceTree = "<group>"; };
 		BB677C6618E3347D00A9B9F4 /* SPLMessageLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SPLMessageLogger.m; path = ../../SPLMessageLogger/SPLMessageLogger.m; sourceTree = "<group>"; };
-		BB814F9418E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_armv7.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_armv7.s; sourceTree = "<group>"; };
-		BB814F9518E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_stret_armv7.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_stret_armv7.s; sourceTree = "<group>"; };
+		BB6D613F18E5EC0000BA515B /* spl_forwarding_trampoline_x86_stret.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_x86_stret.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_x86_stret.s; sourceTree = "<group>"; };
+		BB6D614118E5F0F800BA515B /* spl_forwarding_trampoline_armv7.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = spl_forwarding_trampoline_armv7.s; path = ../../SPLMessageLogger/spl_forwarding_trampoline_armv7.s; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,8 +135,10 @@
 				BB677C6218E332EE00A9B9F4 /* Ytrace.m */,
 				BB677C6518E3347D00A9B9F4 /* SPLMessageLogger.h */,
 				BB677C6618E3347D00A9B9F4 /* SPLMessageLogger.m */,
-				BB814F9418E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s */,
-				BB814F9518E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s */,
+				BB170FA518E5CFB100C0B186 /* spl_forwarding_trampoline_x86.s */,
+				BB6D613F18E5EC0000BA515B /* spl_forwarding_trampoline_x86_stret.s */,
+				BB6D614118E5F0F800BA515B /* spl_forwarding_trampoline_armv7.s */,
+				BB170FA918E5E56A00C0B186 /* spl_forwarding_trampoline_stret_armv7.s */,
 				BB677C6418E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s */,
 				BB677C3818E332B100A9B9F4 /* YTAppDelegate.h */,
 				BB677C3918E332B100A9B9F4 /* YTAppDelegate.m */,
@@ -274,13 +280,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB170FAB18E5E56A00C0B186 /* spl_forwarding_trampoline_stret_armv7.s in Sources */,
+				BB170FA618E5CFB100C0B186 /* spl_forwarding_trampoline_x86.s in Sources */,
 				BB677C6718E3347D00A9B9F4 /* spl_forwarding_trampoline_arm64.s in Sources */,
 				BB677C3A18E332B100A9B9F4 /* YTAppDelegate.m in Sources */,
 				BB677C4318E332B100A9B9F4 /* YTDetailViewController.m in Sources */,
-				BB814F9718E3A33300EBF752 /* spl_forwarding_trampoline_stret_armv7.s in Sources */,
-				BB814F9618E3A33300EBF752 /* spl_forwarding_trampoline_armv7.s in Sources */,
+				BB6D614218E5F0F800BA515B /* spl_forwarding_trampoline_armv7.s in Sources */,
 				BB677C4018E332B100A9B9F4 /* YTMasterViewController.m in Sources */,
 				BB677C6318E332EE00A9B9F4 /* Ytrace.m in Sources */,
+				BB6D614018E5EC0000BA515B /* spl_forwarding_trampoline_x86_stret.s in Sources */,
 				BB677C6818E3347D00A9B9F4 /* SPLMessageLogger.m in Sources */,
 				BB677C3618E332B100A9B9F4 /* main.m in Sources */,
 			);
