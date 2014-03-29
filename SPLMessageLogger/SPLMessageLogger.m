@@ -235,13 +235,14 @@ IMP imp_implementationForwardingToSelector(SEL forwardingSelector, BOOL returnsA
         const char *encoding = method_getTypeEncoding(method);
         BOOL methodReturnsStructValue = encoding[0] == '{';
 #ifdef __i386__
-        @try {
-            NSUInteger valueSize = 0;
-            NSGetSizeAndAlignment(encoding, &valueSize, NULL);
-            if ( methodReturnsStructValue && (valueSize == 1 || valueSize == 2 || valueSize == 4 || valueSize == 8) )
-                methodReturnsStructValue = NO;
-        }
-        @catch (NSException *e) {}
+        if ( methodReturnsStructValue )
+            @try {
+                NSUInteger valueSize = 0;
+                NSGetSizeAndAlignment(encoding, &valueSize, NULL);
+                if ( valueSize == 1 || valueSize == 2 || valueSize == 4 || valueSize == 8 )
+                    methodReturnsStructValue = NO;
+            }
+            @catch (NSException *e) {}
 #endif
         IMP forwardingImplementation = imp_implementationForwardingToSelector(forwardingSelector, methodReturnsStructValue);
 
