@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = "SPLMessageLogger"
+  s.name             = "Ytrace"
   s.version          = "0.2.0"
   s.summary          = "Intercept and log objc messages."
   s.homepage         = "https://github.com/OliverLetterer/SPLMessageLogger"
@@ -11,5 +11,5 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.frameworks = 'Foundation'
-  s.source_files = 'SPLMessageLogger/*.{h,m,s}'
+  s.source_files = 'SPLMessageLogger/*.{h,m,s}', 'Ytrace/Ytrace/Ytrace.{h,m}'
 end
