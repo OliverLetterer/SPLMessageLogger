@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SPLMessageLogger"
-  s.version          = "0.2.0"
+  s.version          = "0.3.0"
   s.summary          = "Intercept and log objc messages."
   s.homepage         = "https://github.com/OliverLetterer/SPLMessageLogger"
   s.license          = 'MIT'
@@ -11,5 +11,6 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.frameworks = 'Foundation'
-  s.source_files = 'SPLMessageLogger/*.{h,m,s}'
+  s.source_files = 'SPLMessageLogger/*.{h,m}'
+  s.dependency 'imp_implementationForwardingToSelector', '~> 0.4'
 end

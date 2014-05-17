@@ -11,5 +11,6 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.frameworks = 'Foundation'
-  s.source_files = 'SPLMessageLogger/*.{h,m,s}', 'Ytrace/Ytrace/Ytrace.{h,m}'
+  s.dependency 'imp_implementationForwardingToSelector', '~> 0.4'
+  s.source_files = 'SPLMessageLogger/*.{h,m}', 'Ytrace/Ytrace/Ytrace.{h,m}'
 end
